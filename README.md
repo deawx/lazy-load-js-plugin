@@ -5,9 +5,9 @@
 <h3>Project page</h3>
 <ul>
   <li>
-    <a href="http://addondev.com/#!demo">See demo</a>
+    <a target="_blank" href="http://addondev.com/#!demo">See demo</a>
   </li>
   <li>
-    <a href="http://addondev.com/#!jsll-raw-manual">Read the manual</a>
+    <a target="_blank" href="http://addondev.com/#!jsll-raw-manual">Read the manual</a>
   </li>
 </ul>
