@@ -103,7 +103,7 @@ function JSLazyLoading(custom){
 		// performance, so it's not reasonable to use decoration effects based on multiple JavaScript recursions or intervals. 
 		// Therefore, it is disabled in the older browsers.
 		
-		fadeInEffect: false,
+		fadeInEffect: true,
 		
 		
 		
@@ -116,10 +116,11 @@ function JSLazyLoading(custom){
 		
 		// Boolean (true, false): 
 		// Fade-in effect parameter - whether or not to preserve the original image opacity. 
-		// If true, the opacity property will be set to the maximum value (1) when an image appears (works faster). 
-		// If false, the opacity will be set to the value, according to CSS rules.
+		// If false, the opacity property will be set to the maximum value (1) when an image appears (works faster). 
+		// If true, the opacity will be set to the value, according to CSS rules. If there is no transparent (semi-transparent) 
+		// images on a page, you may disable this option to increase performance.
 		
-		fadeInPreserveOpacity: false,
+		fadeInPreserveOpacity: true,
 		
 		
 
