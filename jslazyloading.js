@@ -1,5 +1,5 @@
 
-/*! JSLazyLoading JavaScript plugin - Version 1.0
+/*! JSLazyLoading JavaScript plugin - Version 1.0.5
 -------------------------------------------------------------------------
 	Copyright (C) 2015 Addon Dev. All rights reserved.
 	Website: www.addondev.com
@@ -23,40 +23,44 @@ function JSLazyLoading(custom){
 		
 		
 		// Boolean (true, false):
-		// Whether to use a built-in docReady function and start when the document is ready.
-		// If false, the plugin will start immediately after an instance is created.
+		// Determines whether to use a built-in docReady function. If the value is false, the plugin will start 
+		// immediately after an instance is created; if true, the plugin will start when the DOM is ready.
 		
 		docReady: true,
 		
 		
 		
-		// Object (window), string (the id of an HTML element inside the body section):
-		// The container of involved images. The element id has to be set without a hash symbol.
+		// The container of involved images can be the top window object or a string containing an element id 
+		// inside the body section. The element id must be set without a hash symbol.
 		
 		container: window,
 	
 	
 	
 		// String: 
-		// The name of the data-attribute that holds the image source.
+		// The name of the data-attribute that identify the image source.
 		
 		dataAttribute: "data-src",
 		
 		
 		
 		// Boolean (true, false):
-		// Enable or disable multi-serving of images. For small devices (e.g. phones, tablets), instead of large images intended for desktops, 
-		// you can set smaller analogue images. For this purpose, you need to set one or more 
-		// additional attributes that holds the analogue sources (see next parameter).
+		// Enables or disables multi-serving of images. For small devices (e.g. phones, tablets), instead of large 
+		// images intended for desktops, you can set smaller analogue images to be displayed. This can reduce 
+		// network traffic and increase page load speed. For this purpose, you need to set one or more additional 
+		// data-attributes that identify the analogue sources (see next parameter).
 		
 		multiServe: false,
 		
 		
 		
 		// Object:
-		// Breakpoints of multi-serving, if the parameter multiServe is enabled.
-		// Property names - the attributes that hold different images, according to the screen width;
-		// Property values (integer) - the max-width of the screen in pixels.
+		// Determines the breakpoints of multi-serving, if the “multiServe” parameter is enabled. This parameter 
+		// must be initialized with an object. Use quotation marks around the object property names, which identify 
+		// the data-attributes. The integer values of these properties determine the screen max-width in pixels. 
+		// If the screen width is less than or equal to a breakpoint, the plugin will output a smaller analogue. 
+		// There can be several breakpoints, in which case, the plugin will output the image that is related to a 
+		// higher breakpoint.
 		
 		multiServeBreakpoints: {
 			"data-src-extra-small": 220,
@@ -67,123 +71,132 @@ function JSLazyLoading(custom){
 		
 		
 		// NULL, Integer (positive or zero - the value in milliseconds):
-		// To allow or not to allow the images to load with an interval when they are outside the viewport. 
-		// While the visitor is viewing the content, images are being loaded with an interval specified in 
-		// this parameter. You may set also a zero interval; in this case, all the images will be loaded immediately 
-		// one after another. 
+		// This parameter determines whether to force the loading of images that are outside the viewport 
+		// While a visitor is viewing the content, images can be loaded at an interval specified in this parameter. 
+		// You may also set a zero interval, in which case, all the images will be loaded immediately one after another.
 		
 		sequentialLoading: null,
 		
 		
 		
 		// String (base64 encoded image or the path to the file): 
-		// Note: Internet Explorer < 8 doesn't support base64 encoded images.
-		// For these browsers you should use a blank.gif file, that you can find in the plugin folder.
+		// According to the HTML standards, an image must have the “src” attribute. In lazy mode, this attribute must 
+		// have a temporary placeholder image, which is changed to the original source when an image is in the 
+		// viewport. The default value of this parameter is a transparent 1x1 base64 encoded image, but you can set 
+		// a path to another image. Be aware that Internet Explorer 6-7 does not support base64 encoded images, so if
+		// you need to support these versions, you may use a blank.gif file, which you can find in the plugin folder.
 		
 		placeholder: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
 		
 		
 		
 		// NULL (disabled), String (the path of the loader image):
-		// If this parameter is set, the loader will be shown until the original image is loaded.
+		// The path to a loader image that is shown untill the original image is loaded. You may use a loader.gif 
+		// file, which you can find in the plugin folder.
 		
 		loaderImage: null, //"/jslazyloading/loader.gif",
 		
 		
 		
 		// String (CSS color, e.g. "#ededed", "rgb(232, 232, 232)", "grey"), NULL (inherit):
-		// Background color of the placeholder while the original image is being loaded.
+		// Background colour of the placeholder while the original image is being loaded.
 		
 		backgroundColor: null,
 		
 		
 		
 		// Boolean (true, false): enable or disable fade-in effect for all devices; String ("desktop") - enable the effect only for desktop browsers:
-		// Fade-in effect is based on CSS3 transition and available only for the browsers that support CSS3. The main goal of lazy loading is to improve 
-		// performance, so it's not reasonable to use decoration effects based on multiple JavaScript recursions or intervals. 
-		// Therefore, it is disabled in the older browsers.
+		// Determines whether to display images by fading them to opaque. You will enable or disable this setting 
+		// for all kinds of devices if you set this parameter to true or false respectively. You will enable the 
+		// effect only for desktop browsers if you set the parameter to a string "desktop". The fade-in effect 
+		// is based on CSS3 transition and is available only for browsers that support CSS3. The main goal of lazy 
+		// loading is to improve performance, so it is not reasonable to use decoration effects based on multiple 
+		// JavaScript recursions or intervals. Therefore, it is disabled in older browsers.
 		
 		fadeInEffect: true,
 		
 		
 		
 		// Integer (positive): 
-		// Fade-in effect parameter - effect duration in milliseconds.
+		// This parameter refers to the fade-in effect and determines the number of milliseconds to run the animation (the default value is 400).
 		
 		fadeInDuration: 400,
 		
 		
 		
 		// Boolean (true, false): 
-		// Fade-in effect parameter - whether or not to preserve the original image opacity. 
-		// If false, the opacity property will be set to the maximum value (1) when an image appears (works faster). 
-		// If true, the opacity will be set to the value, according to CSS rules. If there is no transparent (semi-transparent) 
-		// images on a page, you may disable this option to increase performance.
+		// This parameter refers to the fade-in effect and determines the final image opacity. If the the parameter 
+		// is set to true, the opacity property will be set to the value corresponding to CSS rules, if it is 
+		// set to false, the opacity will be set to the maximum value (1). If there are no transparent 
+		// (semi-transparent) images on a page, you may disable this option to increase performance.
 		
 		fadeInPreserveOpacity: true,
 		
 		
 
 		// Boolean (true, false):
-		// As the images involved in lazy loading do not contain the original source, the client browser “does not know“
-		// the image height, until the image is loaded. As a result, the content may “jump“ on the image load, because the
-		// browser changes the placeholder to another image.
-		// To prevent this behaviour, you can specify the height of the images in CSS, however 
-		// it is not possible in some cases, e.g. if you have a responsive layout.
-		// With the soft mode enabled you do not have to set the height of your images, this style
-		// will be added to the images dynamically, according to the container width. The soft mode works only for the images, 
-		// that have the "width" and "height" attributes set (the plugin calculates the image dimensions according to the values 
-		// of these attributes). 
-		// In IE 6-7, the "width" and "height" attributes may return wrong values, so, additionally, if you want the images to load 
-		// in the soft mode in these browsers, you have to set "data-width" and "data-height" attributes with the values of the 
-		// "width" and "height" attributes accordingly - the plugin will get the image dimensions from these attributes.
+		// As the images involved in lazy loading do not contain the original source, the client browser 
+		// “does not know” the image height until the image is loaded. As a result, the content may “jump” as the 
+		// image loads because the browser changes the placeholder to another image. To prevent this behaviour, you 
+		// can specify the image height in CSS; however, this is not possible in some cases, e.g. if you have a 
+		// responsive layout.
+
+		// With the soft mode enabled you do not have to set the height of your images; the height property will be 
+		// set for images dynamically, according to the container width. The soft mode only works for images that have 
+		// the “width” and “height” attributes (the plugin calculates the image dimensions according to the values of 
+		// these attributes).
+
+		// In IE 6-7, the “width” and “height” attributes may return incorrect values, so, if you want the images to 
+		// load in the soft mode in these browsers, you must also set “data-width” and “data-height” attributes with 
+		// the values of the “width” and “height” attributes respectively. The plugin will get the image dimensions 
+		// from these attributes.
 	
 		softMode: false,
 		
 		
 		
 		// Boolean (true, false):
-		// Restart the plugin when the browser sends a HTTP request if you would like the new images to load 
-		// in lazy mode (only the images with a data-attribute will be involved). Another way to include new
-		// images in the plugin scope is to use a public method "refresh" (see below).
+		// Restart the plugin when the browser sends an HTTP request if you need the new images to load in lazy mode 
+		// (only images with a data-attribute will be involved). Another way to include new images in the plugin scope 
+		// is to use a public method “refresh” (see the manual on our website).
 		
 		ajaxListener: false,
 		
 		
 		
 		// Integer (positive or zero): 
-		// By changing this parameter, you change the number of images that are checked 
-		// simultaneously if they are in the viewport. The default value (0) means that only one image is tested 
-		// per operation. Once this image in the viewport, the plugin loads it and switches to another image. 
-		// The less the number - the better performance, however if you have complicated layout, it may fail image 
-		// loading. In this case, increase this parameter up to the number, that doesn't cause any problems, 
-		// or set a large value (e.g. 1000) if you would like to remove the limit.
+		// By changing this parameter, you change the number of images that are checked simultaneously if they are 
+		// in the viewport. The default value (0) means that only one image is tested per operation. Once this image is 
+		// in the viewport, the plugin loads it and switches to another image. The smaller the number, the better the 
+		// performance; however, if you have complicated layout, image loading may fail. In this case, increase this 
+		// parameter up to a number that does not cause any problems, or set a large value (e.g. 1000) if you need to 
+		// remove the limit.
 		
 		limit: 0,
 		
 		
 		
 		// Boolean (true, false):
-		// The shape of viewport. If this parameter is set to true, the top, bottom, left and right borders 
-		// of the viewport are taken into account, so images are loaded only if they are inside the rectangular
-		// scope. If false, the images are loaded once they are above the bottom border of the viewport.
-		// Note: using this option can reduce performance to some degree in case there are a large number of
-		// images involved in lazy loading on a page, because the failure limit (previous parameter) 
-		// is getting removed automatically.
+		// This setting determines the shape of the viewport. If this parameter is set to true, the top, bottom, 
+		// left and right borders of the viewport are taken into account, so images are loaded only if they are inside 
+		// the rectangular scope. When the value is false (default), the images are loaded once they are above the 
+		// bottom border of the viewport. Note: using the “Rectangular Border” option can reduce the performance to 
+		// some degree if there are a large number of images involved in lazy loading on a page, because the failure 
+		// limit (previous parameter) is removed automatically.
 		
 		rectangularScope: false,
 		
 		
 		
 		// Integer:
-		// Viewport threshold borders (X and Y axes). If you want images to load earlier, use these parameters. 
-		// Setting a threshold border to 300 causes an image to load 300 pixels before it appears in the viewport.
+		// If you want images to load earlier, use the “rangeY” and “rangeX” parameters. Setting a threshold border 
+		// to 300 causes an image to load 300 pixels before it appears in the viewport.
 		
 		rangeY: 0,
 		
 		
 		
-		// The parameter rangeX is enabled only if the parameter rectangularScope is set to true.
+		// The “rangeX” parameter is enabled only if the “rectangularScope” parameter is set to true.
 		
 		rangeX: 0
 		
@@ -219,7 +232,7 @@ function JSLazyLoading(custom){
 	}
 	
 	
-	// Lighten some standard methods for our needs and make them available for old browsers.
+	// Lighten some standard methods for our needs and make them available for older browsers.
 	
 	function some(array, callback){
 		try{
@@ -254,7 +267,7 @@ function JSLazyLoading(custom){
 			catch(e){setTimeout(function(){docReady(handler)}, 10)}
 		};
 		if(RegExp.$1 < 8){
-			// In IE 6-7, the width and height attributes may return wrong values, so we need to 
+			// In IE 6-7, the width and height attributes may return incorrect values, so we need to 
 			// get the values from the other attributes "data-width" and "data-height", if they have been previously set.
 			widthAttr = "data-width"; heightAttr = "data-height";
 		}
@@ -277,10 +290,10 @@ function JSLazyLoading(custom){
 	
 
 	// The function inViewPort() finds relative coordinates of images, and checks if the images are in the viewport.
-	// A standard fast method getBoundingClientRect() in IOS < 5 returns not expected results, so, instead, in these 
+	// A standard fast method getBoundingClientRect() in IOS < 5 may return not expected results, so, instead, in these 
 	// devices we have to find image cumulative offsets. We find the offsets also in the browsers, that don't support 
 	// getBoundingClientRect(), and if the container of images is not a window.
-	// The function getRelCoords() we use for sorting the images in collection, according to their order.
+	// The function getRelCoords() we use for sorting the images in the collection, according to their order.
 	
 	if(params.container !== win || !root.getBoundingClientRect || /iP(hone|od|ad).+? OS (\d+)/.test(navigator.platform) && RegExp.$1 < 5){
 
@@ -344,7 +357,7 @@ function JSLazyLoading(custom){
 	}
 	
 	
-	// Get an image source; manage multi-serving (if enabled).
+	// Get the image source; manage multi-serving (if enabled).
 	
 	var getSource = function(img){
 		return img.getAttribute(params.dataAttribute)
@@ -405,7 +418,7 @@ function JSLazyLoading(custom){
 				img.style.cssText = img.jsllCSSText;
 			}
 			if(mirror){
-				img.setAttribute("data-error-src", mirror.src.replace(/images.php\?.+?&url=(.*?)/, "$1"));
+				img.setAttribute("data-error-src", mirror.src);
 				img.src = "about:blank";
 			}
 			setTimeout(examine, 100);
@@ -536,8 +549,8 @@ function JSLazyLoading(custom){
 	}
 	
 
-	// Update the image size in the soft mode when the document container size is changed. 
-	// Sort the images, according to their order on a page; check if they are in the viewport on resize event.
+	// Update the image size in the soft mode when the container is resized. 
+	// Sort the images, according to their order on a page; check if they are in the viewport when the container is resized.
 	
 	function update(){
 		if(getContainerSize()){
@@ -600,7 +613,7 @@ function JSLazyLoading(custom){
 
 	
 	// Sequential loading (if enabled).
-	// Images are being loaded one after another with a delay specified in this parameter.
+	// Images are being loaded one after another at an interval specified in this parameter.
 
 	function sequentialLoading(){
 		clearTimeout(sequentialLoadingTimeout);
@@ -617,7 +630,7 @@ function JSLazyLoading(custom){
 	// Ajax listener. 
 	// If the image collection has been changed, and if there are new images on a page, restart 
 	// the plugin and check the order of images. Another way to include new images in the plugin 
-	// scope is to use a public method "refresh" (see below).
+	// scope is to use a public method "refresh" (see the manual on our website).
 
 	function ajaxListener(){
 		ajaxListenerInterval = setInterval(function(){
@@ -646,8 +659,7 @@ function JSLazyLoading(custom){
 				
 				images.push(img);
 				
-				// The placeholder is set on the server side				
-				// img.src = params.placeholder;
+				img.src = params.placeholder;
 
 				if(setCSSText && typeof img.jsllCSSText === "undefined"){
 					setCSSText(img)
