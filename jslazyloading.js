@@ -59,7 +59,7 @@ function JSLazyLoading(custom){
 		// must be initialized with an object. Use quotation marks around the object property names, which identify 
 		// the data-attributes. The integer values of these properties determine the screen max-width in pixels. 
 		// If the screen width is less than or equal to a breakpoint, the plugin will output a smaller analogue. 
-		// There can be several breakpoints, in which case, the plugin will output the image that is related to a 
+		// There can be several breakpoints, in which case, the plugin will output the image that corresponds to a 
 		// higher breakpoint.
 		
 		multiServeBreakpoints: {
@@ -105,7 +105,7 @@ function JSLazyLoading(custom){
 		
 		
 		
-		// Boolean (true, false): enable or disable fade-in effect for all devices; String ("desktop") - enable the effect only for desktop browsers:
+		// Boolean (true, false): String ("desktop"):
 		// Determines whether to display images by fading them to opaque. You will enable or disable this setting 
 		// for all kinds of devices if you set this parameter to true or false respectively. You will enable the 
 		// effect only for desktop browsers if you set the parameter to a string "desktop". The fade-in effect 
@@ -118,7 +118,7 @@ function JSLazyLoading(custom){
 		
 		
 		// Integer (positive): 
-		// This parameter refers to the fade-in effect and determines the number of milliseconds to run the animation (the default value is 400).
+		// This parameter refers to the fade-in effect and determines the number of milliseconds to run the animation.
 		
 		fadeInDuration: 400,
 		
@@ -179,7 +179,7 @@ function JSLazyLoading(custom){
 		// Boolean (true, false):
 		// This setting determines the shape of the viewport. If this parameter is set to true, the top, bottom, 
 		// left and right borders of the viewport are taken into account, so images are loaded only if they are inside 
-		// the rectangular scope. When the value is false (default), the images are loaded once they are above the 
+		// the rectangular scope. When the value is false, the images are loaded once they are above the 
 		// bottom border of the viewport. Note: using the “Rectangular Border” option can reduce the performance to 
 		// some degree if there are a large number of images involved in lazy loading on a page, because the failure 
 		// limit (previous parameter) is removed automatically.
