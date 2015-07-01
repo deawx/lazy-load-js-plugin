@@ -5,7 +5,7 @@
 
 <h3>Some settings:</h3>
 <ul>
-<li>Viewport borders: use to determine the shape of a visible area</li>
+<li>Viewport borders settint allows to determine the shape of a visible area</li>
 <li>Fade-in effect based on pure CSS3 is a way to show images by fading them to opaque</li>
 <li>Customizable loader image and a background that is shown while an original image is being loaded</li>
 <li>Soft mode: the content are not "jumping" as images are being loaded (a browser does not "know" an image dimensions untill the image is loaded, so this effect is normalized)</li>
