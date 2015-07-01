@@ -11,7 +11,6 @@
 <li>Soft mode: the content are not "jumping" as images are being loaded (a browser does not "know" an image dimensions untill the image is loaded, so this effect is normalized)</li>
 <li>AJAX listener allows you to include new images from an AJAX response in the plugin scope. The plugin is compatible with AJAX-based navigation and extensions</li>
 <li>Sequential loading: you can force image loading that are outside the viewport while a user is viewing the content (images will be loaded at a specified interval)</li>
-<li>Soft mode: the content are not "jumping" as images are being loaded (a browser does not "know" an image dimensions untill the image is loaded, so this effect is normalized)</li>
 <li>Iteration limit: you can control the plugin capacity to optimize performance</li>
 </ul>
 
