@@ -1,5 +1,5 @@
 
-/*! JSLazyLoading JavaScript plugin - Version 1.0.6
+/*! JSLazyLoading JavaScript plugin - Version 1.0.7
 -------------------------------------------------------------------------
 	Copyright (C) 2015 Addon Dev. All rights reserved.
 	Website: www.addondev.com
@@ -283,7 +283,7 @@ function JSLazyLoading(custom){
 			element.removeEventListener(event, handler, false)
 		};
 		docReady = function(handler){
-			doc.readyState !== "loading" ? handler() : doc.addEventListener("DOMContentLoaded", handler, false)
+			doc.readyState === "complete" ? handler() : doc.addEventListener("DOMContentLoaded", handler, false)
 		};
 		
 	}
