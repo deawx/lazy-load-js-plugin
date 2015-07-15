@@ -6,10 +6,10 @@
 <h3>Project page</h3>
 <ul>
   <li>
-    <a target="_blank" href="http://addondev.com/#!demo">See demo</a>
+    <a href="http://addondev.com/#!extensions/jslazyloading/demo">See demo</a>
   </li>
   <li>
-    <a target="_blank" href="http://addondev.com/#!jsll-raw-manual">Read the manual</a>
+    <a href="http://addondev.com/#!extensions/jslazyloading/raw-manual">Read the manual</a>
   </li>
 </ul>
 
