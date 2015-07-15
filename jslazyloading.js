@@ -1,5 +1,5 @@
 
-/*! JSLazyLoading JavaScript plugin - Version 1.0.7
+/*! JSLazyLoading JavaScript plugin - Version 1.0.8
 -------------------------------------------------------------------------
 	Copyright (C) 2015 Addon Dev. All rights reserved.
 	Website: www.addondev.com
@@ -295,13 +295,12 @@ function JSLazyLoading(custom){
 	// getBoundingClientRect(), and if the container of images is not a window.
 	// The function getRelCoords() we use for sorting the images in the collection, according to their order.
 	
-	if(params.container !== win || !root.getBoundingClientRect || /iP(hone|od|ad).+? OS (\d+)/.test(navigator.platform) && RegExp.$1 < 5){
-
+	if(params.container !== win || !root.getBoundingClientRect || /iP(hone|od|ad) OS (d+)/.test(navigator.userAgent) && RegExp.$2 < 5){
 		var getScrollOffsets = function(){
 			if(params.container === win){
-				var top = win.pageYOffset || root.scrollTop, left = win.pageXOffset || root.scrollLeft;
+				var top = win.pageYOffset || root.scrollTop || doc.body.scrollTop, left = win.pageXOffset || root.scrollLeft || doc.body.scrollLeft
 			}else{
-				top = container.scrollTop; left = container.scrollLeft;
+				top = container.scrollTop; left = container.scrollLeft
 			}
 			return{
 				top: top,
