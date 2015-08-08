@@ -1,5 +1,5 @@
 
-/*! JSLazyLoading JavaScript plugin - Version 1.1
+/*! JSLazyLoading JavaScript plugin - Version 1.1 
 -------------------------------------------------------------------------
 Copyright (C) 2015 Addon Dev. All rights reserved.
 Website: www.addondev.com
