@@ -1,14 +1,14 @@
 
 /*! JSLazyLoading JavaScript plugin - Version 1.1
 -------------------------------------------------------------------------
-	Copyright (C) 2015 Addon Dev. All rights reserved.
-	Website: www.addondev.com
-	GitHub: github.com/addondev
-	Developer: Philip Sorokin
-	Location: Russia, Moscow
-	E-mail: philip.sorokin@gmail.com
-	Created: June 2015
-	License: GNU GPLv2 http://www.gnu.org/licenses/gpl-2.0.html
+Copyright (C) 2015 Addon Dev. All rights reserved.
+Website: www.addondev.com
+GitHub: github.com/addondev
+Developer: Philip Sorokin
+Location: Russia, Moscow
+E-mail: philip.sorokin@gmail.com
+Created: June 2015
+License: GNU GPLv2 http://www.gnu.org/licenses/gpl-2.0.html
 ------------------------------------------------------------------------------ */
 
 
@@ -209,8 +209,8 @@ function JSLazyLoading(custom) {
 	// Overwrite default values of the parameters with custom values 
 	// by the object properties passed as the function argument.
 	
-	if (typeof custom === "object") {
-		for(var i in custom) {
+	if (custom instanceof Object) {
+		for (var i in custom) {
 			params[i] = custom[i];
 		}
 	}
@@ -219,26 +219,26 @@ function JSLazyLoading(custom) {
 	// Initialize other global variables.
 	
 	var	win = window, doc = win.document, container, ancestor, images, root = doc.documentElement, sequentialLoadingTimeout, ajaxListenerInterval, 
-			_this = this, _temp, remainder, containerWidth, containerHeight, widthAttr = "width", heightAttr = "height", cssText = "";
+		_this = this, _temp, remainder, containerWidth, containerHeight, widthAttr = "width", heightAttr = "height", cssText = "";
 
 	
 	// Find the images with the data-attribute. Skip the images without the attribute.
 	
 	function search(callback) {
 		for (var i=0, collection = ancestor.getElementsByTagName("img"), len = collection.length; i<len; i++) {
-			if (collection[i].getAttribute(params.dataAttribute)) {
+			if ( collection[i].getAttribute(params.dataAttribute) ) {
 				callback(collection[i]);
 			}
 		}
 	}
 	
 	
-	// Lighten some standard methods for our needs and make them available for older browsers.
+	// Lighten some standard methods for our needs and make them available for old browsers.
 	
 	function some(array, callback) {
 		try {
 			for (var i=0, len = array.length; i<len; i++) {
-				if (array[i] && callback(array[i], i)) {
+				if ( array[i] && callback(array[i], i) ) {
 					return true;
 				}
 			}
@@ -270,16 +270,16 @@ function JSLazyLoading(custom) {
 		docReady = function(handler) {
 			try {
 				root.doScroll("left"); 
-				handler(); 
+				handler();
 			}
 			catch(e) {
-				setTimeout(function(){
+				setTimeout(function(){ 
 					docReady(handler);
 				}, 10);
 			}
 		};
 		if (_temp < 8) {
-			// In IE 6-7, the width and height attributes may return incorrect values, so we need to 
+			// In IE 6-7, the width and height attributes may return wrong values, so we need to 
 			// get the values from the other attributes "data-width" and "data-height", if they have been previously set.
 			widthAttr = "data-width"; heightAttr = "data-height";
 		}
@@ -302,14 +302,14 @@ function JSLazyLoading(custom) {
 	
 
 	// The function inViewPort() finds relative coordinates of images, and checks if the images are in the viewport.
-	// A standard fast method getBoundingClientRect() in IOS < 5 may return not expected results, so, instead, in these 
+	// A standard fast method getBoundingClientRect() in IOS < 5 returns not expected results, so, instead, in these 
 	// devices we have to find image cumulative offsets. We find the offsets also in the browsers, that don't support 
 	// getBoundingClientRect(), and if the container of images is not a window.
-	// The function getRelCoords() we use for sorting the images in the collection, according to their order.
+	// The function getRelCoords() we use for sorting the images in collection, according to their order.
 	
 	if ( params.container !== win || !root.getBoundingClientRect || 
 		(_temp = navigator.userAgent.match(/iP(hone|od|ad) OS (\d+)/)) && _temp[2] < 5 ) {
-			
+	
 		var getScrollOffsets = function() {
 			if (params.container === win) {
 				var top = win.pageYOffset || root.scrollTop || doc.body.scrollTop, 
@@ -340,16 +340,17 @@ function JSLazyLoading(custom) {
 		} : function(x, offsets) {
 			var top = 0;
 			do {
-				top += x.offsetTop || 0
+				top += x.offsetTop || 0;
 				x = x.offsetParent;
 			} while (x && x != container);
 			return (top <= containerHeight + offsets.top);
 		}, 
 		
 		getRelCoords = function(x) {
-			var top = 0, left = 0;
+			var top  = root.clientTop || doc.body.clientTop, 
+				left = root.clientLeft || doc.body.clientLeft;
 			do {
-				top += x.offsetTop  || 0;
+				top  += x.offsetTop  || 0;
 				left += x.offsetLeft || 0;
 				x = x.offsetParent;
 			} while (x && x != container);
@@ -378,19 +379,19 @@ function JSLazyLoading(custom) {
 	}
 	
 	
-	// Get the image source; manage multi-serving (if enabled).
+	// Get an image source; manage multi-serving (if enabled).
 	
 	var getSource = function(img) {
 		return img.getAttribute(params.dataAttribute);
 	};
 	
-	if (params.multiServe && typeof params.multiServeBreakpoints === "object") {
+	if (params.multiServe && params.multiServeBreakpoints instanceof Object) {
 		
 		var sourceAttributes = new Array();
 		
 		for (var name in params.multiServeBreakpoints) {
 			if (win.screen.width <= params.multiServeBreakpoints[name]) {
-				sourceAttributes.push({name: name, value: params.multiServeBreakpoints[name]});
+				sourceAttributes.push( {name: name, value: params.multiServeBreakpoints[name]} );
 			}
 		}
 		
@@ -403,10 +404,10 @@ function JSLazyLoading(custom) {
 			for (var i=0; i<sourceAttributes.length; i++) {
 				sourceAttributes[i] = sourceAttributes[i].name;
 			}
-		
+				
 			getSource = function(img) {
 				for (var i=0, source; i<sourceAttributes.length; i++) {
-					if (source = img.getAttribute(sourceAttributes[i])) {
+					if ( source = img.getAttribute(sourceAttributes[i]) ) {
 						return source;
 					}
 				}
@@ -463,7 +464,7 @@ function JSLazyLoading(custom) {
 		}('transition', '-webkit-transition', '-moz-transition', '-o-transition');
 		
 		// If the client's browser supports a property, enable fade-in effect.
-		// Disable fade-in effect for not desktop browsers if required.
+		// Disable fade-in effect in not desktop browsers if required.
 		
 		if ( transition && ( params.fadeInEffect !== "desktop" || ( !('ontouchstart' in win || 'onmsgesturechange' in win) || win.screen.width > 768 ) ) ) {
 		
@@ -474,7 +475,7 @@ function JSLazyLoading(custom) {
 				
 				var style = doc.createElement("style");
 					style.type = "text/css";
-					style.appendChild(doc.createTextNode("img {-webkit-transform: translateZ(0px)}"));
+					style.appendChild( doc.createTextNode("img {-webkit-transform: translateZ(0px)}") );
 				doc.getElementsByTagName("head")[0].appendChild(style);
 				
 			}
@@ -496,10 +497,10 @@ function JSLazyLoading(custom) {
 						// Find the opacity margin if the option Preserve Opacity has been set.
 						
 						if (params.fadeInPreserveOpacity) {
-							var opacityMargin = getComputedStyle(img, '').opacity,
-							effectDuration = params.fadeInDuration * 1 / opacityMargin;
+							var opacityMargin  = getComputedStyle(img, '').opacity,
+								effectDuration = params.fadeInDuration * 1 / opacityMargin;
 						} else {
-							opacityMargin = 1;
+							opacityMargin  = 1;
 							effectDuration = params.fadeInDuration;
 						}
 						
@@ -548,7 +549,7 @@ function JSLazyLoading(custom) {
 			}
 			img.jsllCSSText = img.getAttribute("style") || "";
 			img.style.cssText += cssText + "; height: " + (img.offsetWidth / img.jsllProportion) + "px";
-		}
+		};
 		
 	} else if (cssText) {
 		
@@ -575,11 +576,11 @@ function JSLazyLoading(custom) {
 	}
 	
 
-	// Update the image size in the soft mode when the container is resized. 
-	// Sort the images, according to their order on a page; check if they are in the viewport when the container is resized.
+	// Update an image size in the soft mode when the document container size is changed. 
+	// Sort the images, according to their order on a page; check if they are in the viewport on resize event.
 	
 	function update() {
-		if (getContainerSize()) {
+		if ( getContainerSize() ) {
 			if (params.softMode) {
 				forEach(images, function(img) {
 					if (img.jsllProportion) {
@@ -708,7 +709,7 @@ function JSLazyLoading(custom) {
 			
 		}
 		
-	}
+	};
 	
 	
 	this.abort = function() {
@@ -728,7 +729,7 @@ function JSLazyLoading(custom) {
 			if (source) {
 				img.src = source;
 			}
-		})
+		});
 		
 	};
 	
@@ -755,16 +756,6 @@ function JSLazyLoading(custom) {
 			} else if (container) {
 				
 				_this.started = true;
-			
-				// No JavaScript support (only for the Joomla plugin).
-				
-				if (params.noScriptSupport) {
-					var styleSheet = doc.getElementById("jsllNoscriptStyleSheet");
-					if (styleSheet) {
-						styleSheet.parentNode.removeChild(styleSheet);
-					}
-				}
-				
 				_this.refresh();
 				
 				addListener(container, 'scroll', examine);
@@ -784,7 +775,7 @@ function JSLazyLoading(custom) {
 	};
 	
 	
-	// Execute.
+	// Execute
 	
 	params.docReady ? docReady(this.start) : this.start();
 
