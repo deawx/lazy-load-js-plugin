@@ -12,12 +12,23 @@ License: GNU GPLv2 http://www.gnu.org/licenses/gpl-2.0.html
 ------------------------------------------------------------------------------ */
 
 
-function JSLazyLoading(custom, pluginFolder) {
+function JSLazyLoading(custom, pluginFolderURL) {
 	
 	"use strict";
 	
 	// STRING: Plugin folder URL
-	pluginFolder = pluginFolder || '';
+	pluginFolderURL = pluginFolderURL || function() {
+		for (var i=0, scripts = document.getElementsByTagName('script'); i < scripts.length; i++) {
+			var source = scripts[i].getAttribute('src');
+			if (source) {
+				var pos = source.indexOf('/jslazyloading.');
+				if (pos !== -1) {
+					return source.substr(0, pos);		
+				}
+			}
+		}
+		return '';
+	}();
 	
 	// OBJECT: the plugin parameters
 	var params = {
@@ -64,7 +75,7 @@ function JSLazyLoading(custom, pluginFolder) {
 		*    Retina images will be loaded for high-density devices, if the device screen density is more than
 		*    or equal to a breakpoint value.		
 		*/
-		multiServingType: "width",
+		multiServingType: "density",
 		
 		/** 
 		* OBJECT:
@@ -81,18 +92,20 @@ function JSLazyLoading(custom, pluginFolder) {
 			* If the screen width is less than or equal to a breakpoint, the plugin will output 
 			* a smaller analogue. There can be several breakpoints, in which case, the plugin will 
 			* output the image that corresponds to the closest breakpoint.
+			*
+			*	"data-src-extra-small": "220px",
+			*	"data-src-small": "420px",
+			*	"data-src-medium": "768px",
 			*/
-			"data-src-extra-small": "220px",
-			"data-src-small": "420px",
-			"data-src-medium": "768px",
 			
 			/**
 			* STRING VALUE:
 			* Retina breakpoint is specified with a string value in dpi. If the retina
 			* breakpoint is set and the screen density is more than or equal to the density value, a retina image
 			* will be loaded.
+			*
+			*	"data-retina2x": "192dpi"
 			*/
-			"data-retina2x": "192dpi"
 			
 		},
 		
@@ -124,7 +137,7 @@ function JSLazyLoading(custom, pluginFolder) {
 		* The path to a loader image that is shown untill the original image is loaded. You may use a loader.gif 
 		* file, which you can find in the plugin folder.
 		*/
-		loaderImage: pluginFolder + "/loader.gif",
+		loaderImage: pluginFolderURL + "/loader.gif",
 		
 		/** 
 		* STRING (CSS color, e.g. "#ededed", "rgb(232, 232, 232)", "grey"), NULL (inherit):
@@ -141,7 +154,7 @@ function JSLazyLoading(custom, pluginFolder) {
 		* loading is to improve performance, so it is not reasonable to use decoration effects based on multiple 
 		* JavaScript recursions or intervals. Therefore, it is disabled in older browsers.
 		*/
-		fadeInEffect: false,
+		fadeInEffect: true,
 		
 		/** 
 		* INTEGER (positive): 
@@ -244,8 +257,8 @@ function JSLazyLoading(custom, pluginFolder) {
 	
 	// Global variables
 	var	win = window, doc = win.document, images, root = doc.documentElement, sequentialLoadingTimeout, ajaxListenerInterval, 
-		match, remainder = 0, containerWidth, containerHeight, widthAttr = "width", heightAttr = "height", cssText = "";
-	
+		_this = this, match, remainder = 0, containerWidth, containerHeight, widthAttr = "width", heightAttr = "height", cssText = "";
+		
 	
 	if ( match = navigator.userAgent.match(/(Chrome)|(?:(MSIE)|(iP(?:hone|od|ad).+?OS)) (\d+)/) ) {
 		if (match[1]) {
@@ -717,7 +730,7 @@ function JSLazyLoading(custom, pluginFolder) {
 					});
 					
 					if (imageFractions.length) {
-						imageFractions = imageFractions.join('\n').replace(rex, pluginFolder + "/mirror/" + handler + "/$1?" + analogues).split('\n');
+						imageFractions = imageFractions.join('\n').replace(rex, pluginFolderURL + "/mirror/" + handler + "/$1?" + analogues).split('\n');
 						forEach(collection, function(img, i) {
 							img.setAttribute(params.dataAttribute, imageFractions[i]);
 						});
@@ -737,6 +750,9 @@ function JSLazyLoading(custom, pluginFolder) {
 			
 			search(function(img) {
 				images.push(img);
+				if (params.placeholder) {
+					img.src = params.placeholder;
+				}
 				if (setCSSText && !img.jsllCSSText) {
 					setCSSText(img);
 				}
@@ -812,7 +828,6 @@ function JSLazyLoading(custom, pluginFolder) {
 				
 				if (params.ajaxListener && !JSLazyLoading.ajaxListenerEnabled) {
 					JSLazyLoading.ajaxListenerEnabled = true;
-					var _this = this;
 					ajaxListenerInterval = setInterval(function() {
 						var cnt = 0;
 						search(function(img) {
@@ -834,6 +849,8 @@ function JSLazyLoading(custom, pluginFolder) {
 	
 	
 	// Execute
-	params.docReady ? docReady(this.start) : this.start();
+	params.docReady ? docReady(function() {
+		_this.start.call(_this);
+	}) : this.start();
 
 }
