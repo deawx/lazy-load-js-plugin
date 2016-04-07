@@ -1,7 +1,7 @@
 <?php 
 
 /** 
- * JSLazyLoading raw JavaScript plugin
+ * JSLazyLoading raw JavaScript plugin - Version 1.2
  *
  * @Copyright (C) 2015–2016 Philip Sorokin. All rights reserved.
  * @website: https://addondev.com
