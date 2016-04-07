@@ -81,7 +81,8 @@ function JSLazyLoading(custom, pluginFolderURL) {
 		* OBJECT:
 		* Determines the breakpoints of multi-serving, if the “multiServing” parameter is enabled. This parameter 
 		* must be initialized with an object. Use quotation marks around the object property names, which identify 
-		* the data-attributes.
+		* the data-attributes. There can be several breakpoints, in which case, the plugin will output the image 
+		* that corresponds to the closest breakpoint.
 		*/
 		multiServingBreakpoints: {
 			
@@ -90,12 +91,17 @@ function JSLazyLoading(custom, pluginFolderURL) {
 			* The breakpoints of device screen max-width in pixels.
 			* The values of these properties determine the screen max-width in pixels. 
 			* If the screen width is less than or equal to a breakpoint, the plugin will output 
-			* a smaller analogue. There can be several breakpoints, in which case, the plugin will 
-			* output the image that corresponds to the closest breakpoint.
+			* a smaller analogue. 
 			*
-			*	"data-src-extra-small": "220px",
-			*	"data-src-small": "420px",
-			*	"data-src-medium": "768px",
+			*	MANUAL MODE (ATTRIBUTE NAME):
+			*
+			*		"data-src-small": "420px",
+			*		"data-src-medium": "768px"
+			*
+			*	AUTOMATIC MODE (FILE POSTFIX):
+			*		
+			*		"_small": "192dpi",
+			*		"_medium": "288dpi"
 			*/
 			
 			/**
@@ -104,7 +110,15 @@ function JSLazyLoading(custom, pluginFolderURL) {
 			* breakpoint is set and the screen density is more than or equal to the density value, a retina image
 			* will be loaded.
 			*
-			*	"data-retina2x": "192dpi"
+			*	MANUAL MODE (ATTRIBUTE NAME):
+			*
+			*		"data-retina2x": "192dpi",
+			*		"data-retina3x": "288dpi"
+			*
+			*	AUTOMATIC MODE (FILE POSTFIX):
+			*		
+			*		"_retina2x": "192dpi",
+			*		"_retina3x": "288dpi"
 			*/
 			
 		},
