@@ -21,7 +21,7 @@ function JSLazyLoading(custom, pluginFolderURL) {
 		for (var i=0, scripts = document.getElementsByTagName('script'); i < scripts.length; i++) {
 			var source = scripts[i].getAttribute('src');
 			if (source) {
-				var pos = source.indexOf('/jslazyloading.');
+				var pos = source.search(/\/jslazyloading(?:\.min)?\.js(\?.*)?$/i);
 				if (pos !== -1) {
 					return source.substr(0, pos);		
 				}
@@ -109,11 +109,6 @@ function JSLazyLoading(custom, pluginFolderURL) {
 			
 		},
 		
-		/**
-		* NULL, STRING, ARRAY:
-		*/
-		clientSideExclusion: null,
-		
 		/** 
 		* NULL (disabled), INTEGER (positive or zero - the value in milliseconds):
 		* This parameter determines whether to force the loading of images that are outside the viewport 
@@ -170,7 +165,7 @@ function JSLazyLoading(custom, pluginFolderURL) {
 		* set to false, the opacity will be set to the maximum value (1). If there are no transparent 
 		* (semi-transparent) images on a page, you may disable this option to increase performance.
 		*/
-		fadeInPreserveOpacity: false,
+		fadeInPreserveOpacity: true,
 		
 		/** 
 		* BOOLEAN (true, false):
@@ -674,37 +669,6 @@ function JSLazyLoading(custom, pluginFolderURL) {
 		});
 	}
 	
-	
-	// Immediately load images that have certain ID or classNames, 
-	// or images that are inside containers with these ID or classNames.
-	
-	function instantLoad(item, i, url, element) {
-		var selectorType = item.substr(0,1),
-			selectorName = item.substr(1);
-		if (selectorType === '#') {
-			var element = doc.getElementById(selectorName);
-		} else if (selectorType === '.') {
-			element = doc.getElementsByClassName ? doc.getElementsByClassName(selectorName) : function() {
-				var collection = new Array();
-				forEach(doc.getElementsByTagName('*'), function(el) {
-					if (el.className && new RegExp('(^|\\s+)' + selectorName + '($|\\s+)').test(el.className)) {
-						collection.push(el);
-					}
-				});
-				return collection;
-			}();
-		}
-		if (element) {
-			var elements = typeof element.length !== 'undefined' ? element : [element];
-			forEach(elements, function(el) {
-				var collection = el.tagName === 'IMG' ? [el] : el.getElementsByTagName('img');
-				forEach(collection, function(img) {
-					appear(img, params.fadeInEffect);
-				});
-			});
-		}
-	}
-	
 
 	// PUBLIC METHODS
 	
@@ -809,11 +773,6 @@ function JSLazyLoading(custom, pluginFolderURL) {
 				this.abort();
 			
 			} else {
-				
-				if (params.clientSideExclusion)
-				{
-					forEach(params.clientSideExclusion, instantLoad, true);
-				}
 				
 				this.started = true;
 				this.refresh();
