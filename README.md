@@ -1,25 +1,10 @@
-# JSLazyLoading 
-<p>JSLazyLoading is a lightweight performance-oriented plugin for lazy loading and multi-serving of images. Written in pure JavaScript, the plugin does not depend on third-party libraries such as Mootools and jQuery. The plugin delays the loading of images that are outside the viewport until a user scrolls to them.</p>
+# JSLazyLoading raw JavaScript plugin
+JSLazyLoading is a lightweight performance-oriented plugin for lazy loading and multi-serving of images, that is intended for client-side optimization. Written in pure JavaScript, the plugin does not depend on third-party libraries, such as jQuery. The plugin delays the loading of images that are outside the viewport until a user scrolls to their position in the document.
 
-<p>For mobile devices and tablets, instead of large images intended for desktop browsers, you can set smaller analogue images to be displayed. This can reduce network traffic and increase page load speed. The plugin is compatible with both modern and older browsers, including Internet Explorer 6+.</p>
+The multi-serving option allows to display images dinamically, according to the device screen width or the device screen density. Retina mode is intended to display high-density images if the device screen density is high enough. In this mode high-quality images are loaded on demand without waiting of entire page load. In contrast, if you want to speed up your site to the maximum and you do not need Retina support, you can set smaller light-weight images to be displayed in mobiles and tablets instead of large images.
 
-<h3>Project page</h3>
-<ul>
-  <li>
-    <a href="http://addondev.com/#!extensions/jslazyloading/demo">See demo</a>
-  </li>
-  <li>
-    <a href="http://addondev.com/#!extensions/jslazyloading/raw-manual">Read the manual</a>
-  </li>
-</ul>
-
-<h3>Some options</h3>
-<ul>
-<li>Viewport borders setting allows to determine the shape of a visible area</li>
-<li>Fade-in effect based on pure CSS3 is a way to show images by fading them to opaque</li>
-<li>Customizable loader image and a background that is shown while an original image is being loaded</li>
-<li>Soft mode: the content is not "jumping" as images are being loaded (a browser does not "know" image dimensions untill an image is loaded; however, this effect is normalized)</li>
-<li>AJAX listener allows you to include new images from an AJAX response in the plugin scope. The plugin is compatible with AJAX-based navigation and extensions</li>
-<li>Sequential loading: you can force image loading that are outside the viewport while a user is viewing the content (images will be loaded at a specified interval)</li>
-<li>Iteration limit: you can control the plugin capacity to optimize performance</li>
-</ul>
+This plugin can reduce network traffic and increase page load speed, which is very helpful if a user has slow internet connection. Different client-side and server-side options allow you to optimize the performance and usability of your website. The plugin is compatible with both modern and older browsers, including Internet Explorer 6+.
+### Project page
+* [See demo](https://addondev.com/en/extensions/jslazyloading/demo)
+* [Read the manual](https://addondev.com/en/extensions/jslazyloading/raw-manual)
+* [Download this plugin](https://addondev.com/support/releases/download.php/jslazyloading-raw)

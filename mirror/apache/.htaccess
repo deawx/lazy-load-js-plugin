@@ -1,0 +1,36 @@
+##
+# JSLazyLoading raw JavaScript plugin
+#
+# @Copyright (C) 2015–2016 Philip Sorokin. All rights reserved.
+# @website: https://addondev.com
+# @GitHub: github.com/addondev.
+# @developer: Philip Sorokin.
+# @location: Russia, Moscow.
+# @e-mail: philip.sorokin@gmail.com
+# @created: June 2015.
+# @license: GNU GPLv2 http://www.gnu.org/licenses/gpl-2.0.html
+# 
+# If automatic image multi-serving is enabled and the Apache handler is selected, the JavaScript plugin changes 
+# image URLs so that images can be served by the Apache mod_rewrite module. This handler checks if the submitted 
+# analogues exist and displays it. If analogues do not exist, this handler tries to display the original image. 
+# Otherwise, an error 404 is risen.
+##
+
+RewriteEngine On
+
+RewriteCond %{QUERY_STRING} ^analogues=([^&]+) [NC]
+RewriteRule .? - [E=ANALOGUES:%1]
+
+RewriteCond %{ENV:ANALOGUES} ^([^\+]+)
+RewriteCond %{DOCUMENT_ROOT}/$1_%1\.$2 -f
+RewriteRule ^(.+?)\.([^\.]+)$ /$1_%1.$2 [L]
+
+RewriteCond %{ENV:ANALOGUES} \+([^\+]+)\+
+RewriteCond %{DOCUMENT_ROOT}/$1_%1\.$2 -f
+RewriteRule ^(.+?)\.([^\.]+)$ /$1_%1.$2 [L]
+
+RewriteCond %{ENV:ANALOGUES} ([^\+]+)$
+RewriteCond %{DOCUMENT_ROOT}/$1_%1\.$2 -f
+RewriteRule ^(.+?)\.([^\.]+)$ /$1_%1.$2 [L]
+
+RewriteRule (.+) /$1 [L]
