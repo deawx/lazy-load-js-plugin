@@ -345,6 +345,9 @@ function JSLazyLoading(custom, pluginFolderURL) {
 			// In IE 6-7, the width and height attributes may return wrong values, so we need to 
 			// get the values from the other attributes "data-width" and "data-height", if they have been previously set.
 			widthAttr = "data-width"; heightAttr = "data-height";
+			
+			// IE 6-7 does not support base64 encoded images.
+			params.placeholder = pluginFolderURL + "/blank.gif";
 		}
 	} else {
 		// Initialize some functions for modern browsers.
